@@ -1,0 +1,324 @@
+fecha,comida_del_dia,alimento,contenido_calorico,carbohidratos,proteinas,lipidos,sodio
+16-ago-22,desayuno,quesadilla,274,20,18,250,739
+16-ago-22,comida,cuernito,213,30,7,6,507.9
+16-ago-22,cena,cereal,200,33,9,5,2160
+16-ago-22,snack,manzana,104,27.62,0.52,0.34,2
+17-ago-22,comida,carne de cerdo,276,0,19,25,400
+17-ago-22,comida,arroz blanco,43,0,3,0,0
+17-ago-22,cena,pan tostado,125,20,3,3,120
+17-ago-22,snack,papas fritas,312,41,3.4,15,210
+18-ago-22,desayuno,quesadilla,274,20,18,250,739
+18-ago-22,cena,cereal,200,33,9,5,2160
+18-ago-22,snack,fruta picada,89,22,1.5,0.4,2.3
+19-ago-22,desayuno,Hot-Dog,230,12,5,7,0
+19-ago-22,comida,Costillas de cerdo,960,24,16,13,1060
+19-ago-22,cena,hot cakes,167,26.1,5.5,4.5,298
+19-ago-22,snack,papas fritas,312,41,3.4,15,210
+20-ago-22,comida,spaghetti rojo,361,75,11,1,0
+20-ago-22,cena,1_enchilada,168,16,6,4.7,250
+20-ago-22,snack,chips,150,15,2,9,170
+21-ago-22,desayuno,Sandwich,302,29,23,11,711
+21-ago-22,comida,Lasagna,275,42,15,3,0
+21-ago-22,cena,flautas,420,38,17,22,0
+21-ago-22,snack,yogur de frutas,80,12.4,3.6,1.5,0.15
+22-ago-22,comida,ensalada de verduras,26,5,1.4,0.3,51.5
+22-ago-22,cena,quesadilla,274,20,18,250,739
+22-ago-22,snack,platano,105,26.95,1.29,0.39,0
+23-ago-22,desayuno,Hot-Dog,230,12,5,7,0
+23-ago-22,cena,gelatina,37,2.2,0,0,0.2
+23-ago-22,snack,yogur de frutas,80,12.4,3.6,1.5,0.15
+24-ago-22,desayuno,Quesadilla,274,20,18,250,739
+24-ago-22,comida,tacos de pastor,224,22.4,19.31,6.78,511.21
+24-ago-22,cena,tecate azul,110,7,1,0,0
+24-ago-22,snack,ruffles,160,15,2,10,150
+25-ago-22,desayuno,sandwich,302,29,23,11,711
+25-ago-22,comida,Hamburgesa,144,2.2,21,4.2,147
+25-ago-22,cena,pan dulce,400,48,5,21,310
+25-ago-22,snack,helado vainilla,140,21,2,5,0
+26-ago-22,desayuno,manzana,104,27.62,0.52,0.34,2
+26-ago-22,desayuno ,Sandwich,302,29,23,11,711
+26-ago-22,comida,double western bacon,1060,81,58,57,2080
+26-ago-22,cena,pan tostado,125,20,3,3,120
+26-ago-22,snack,ruffles,160,15,2,10,150
+27-ago-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+27-ago-22,cena,alitas de pollo,277,0.9,18,17,2300
+27-ago-22,snack,salchicha,54,3.5,3,0.9,0
+28-ago-22,comida,pizza ,488,72,28,12,0
+28-ago-22,desayuno,quesadilla,274,20,18,250,739
+28-ago-22,cena,pan dulce,400,48,5,21,310
+28-ago-22,snack,chips,150,15,2,9,170
+29-ago-22,comida,tacos de pastor,224,22.4,19.31,6.78,511.21
+29-ago-22,cena,quesadilla,274,20,18,250,739
+29-ago-22,snack,dona,140,13,5,5,220
+30-ago-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+30-sept-22,comida,alambre,177,6.8,15.3,9.8,1.4
+30-ago-22,cena,flautas,420,38,17,22,0
+30-sept-22,snack,papas fritas,312,41,3.4,15,210
+1-sept-22,desayuno,Sandwich,302,29,23,11,711
+1-sept-22,comida,lasgna,275,42,15,3,0
+1-sept-22,cena,hot cakes,167,26.1,5.5,4.5,298
+1-sept-22,snack,fruta picada,89,22,1.5,0.4,2.3
+2-sept-22,desayuno,Omelette,207,2.2,21.85,12.29,0
+2-sept-22,comida,sushi,830,30,8,3,480
+2-sept-22,cena,quesadilla,274,20,18,250,739
+2-sept-22,snack,gelatina,37,2.2,0,0,0.2
+3-sept-22,desayuno,Sandwich,302,29,23,11,711
+3-sept-22,comida,Carne asada,56,0,5.44,3.64,46
+3-sept-22,cena,1_enchilada,168,16,6,4.7,250
+3-sept-22,snack,ruffles,160,15,2,10,150
+4-sept-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+4-sept-22,comida,picadillo,321,6.6,32.2,17.4,742
+4-sept-22,cena,pan tostado,125,20,3,3,120
+4-sept-22,snack,papas fritas,312,41,3.4,15,210
+5-sept-22,desayuno,quesadilla,274,20,18,250,739
+5-sept-22,comida,ensalada cesar,116,10,2.38,4.9,0
+5-sept-22,cena,pan dulce,400,48,5,21,310
+5-sept-22,snack,chips,150,15,2,9,170
+6-sept-22,desayuno,Hot-Dog,230,12,5,7,0
+6-sept-22,comida,lasgna,275,42,15,3,0
+6-sept-22,cena,platano,105,26.95,1.29,0.39,0
+6-sept-22,snack,salchicha,54,3.5,3,0.9,0
+7-sept-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+7-sept-22,comida,pasta a la bolgensa,126,16.5,5.1,4.4,1932
+7-sept-22,cena,cereal,200,33,9,5,2160
+7-sept-22,snack,carne seca,50,0,10,1.5,340
+8-sept-22,comida,tacos de carne,570,42,27,33,1140
+8-sept-22,comida,McAndCheese,155,30,6,,72
+9-sept-22,desayuno,Sandwich,302,29,23,11,711
+9-sept-22,comida,lasgna,275,42,15,3,0
+9-sept-22,cena,cereal,200,33,9,5,2160
+9-sept-22,snack,carne seca,50,0,10,1.5,340
+10-sept-22,desayuno,Omelette,207,2.2,21.85,12.29,0
+10-sept-22,comida,Carne asada,56,0,5.44,3.64,46
+12-sept-22,desayuno,quesadilla,274,20,18,250,739
+12-sept-22,comida,torta de discada,362,63,5,10,2300
+12-sept-22,cena,pan tostado,125,20,3,3,120
+12-sept-22,snack,gelatina,37,2.2,0,0,0.2
+13-sept-22,desayuno,Hot-Dog,230,12,5,7,0
+13-sept-22,comida,filete asado,120,,19,6,2235
+13-sept-22,cena,dona,140,13,5,5,220
+13-sept-22,snack,manzana,104,27.62,0.52,0.34,2
+14-sept-22,desayuno,Sandwich,302,29,23,11,711
+14-sept-22,comida,pasta a la mantequilla,130,7,20,2,2000
+14-sept-22,cena,Hot-Dog,230,12,5,7,0
+14-sept-22,snack,yogur de frutas,80,12.4,3.6,1.5,0.15
+15-sept-22,desayuno,Sandwich,302,29,23,11,711
+15-sept-22,comida,alitas de pollo,277,0.9,18,17,2300
+15-sept-22,cena,pizza ,180,26,9,5,1890
+15-sept-22,snack,fruta picada,89,22,1.5,0.4,2.3
+16-sept-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+16-sept-22,comida,pozole,365,33,22,16,1418
+16-sept-22,cena,1_enchilada,168,16,6,4.7,250
+16-sept-22,snack,ruffles,160,15,2,10,150
+17-sept-22,desayuno,tacos dorados,198,23,4,10,1924
+17-sept-22,comida,chilaquiles,443,31.88,9.74,32.02,2300
+17-sept-22,cena,pan tostado,125,20,3,3,120
+17-sept-22,snack,carne seca,50,0,10,1.5,340
+18-sept-22,desayuno,tostadas de pata,150,,2.8,2.7,2300
+18-sept-22,comida,pizza ,180,26,9,5,1890
+18-sept-22,cena,pan dulce,400,48,5,21,310
+18-sept-22,snack,ruffles,160,15,2,10,150
+19-sept-22,desayuno,hot cakes,167,26.1,5.5,4.5,298
+19-sept-22,comida,pechuga de pollo,145,0,22.2,6.2,66
+19-sept-22,cena,quesadilla,274,20,18,250,739
+19-sept-22,snack,chips,150,15,2,9,170
+20-sept-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+20-sept-22,comida,arroz blanco,43,0,3,0,0
+20-sept-22,cena,pan tostado,125,20,3,3,120
+20-sept-22,snack,carne seca,50,0,10,1.5,340
+21-sept-22,desayuno,Sandwich,302,29,23,11,711
+21-sept-22,comida,ensalada cesar,116,10,2.38,4.9,0
+21-sept-22,cena,flautas,420,38,17,22,0
+21-sept-22,snack,salchicha,54,3.5,3,0.9,0
+22-sept-22,desayuno,Omelette,207,2.2,21.85,12.29,0
+22-sept-22,comida,pollo teriyaki,255,0,21,19,1200
+22-sept-22,cena,pan tostado,125,20,3,3,120
+22-sept-22,snack,helado vainilla,140,21,2,5,0
+23-sept-22,desayuno,Sandwich,302,29,23,11,711
+23-sept-22,comida,double western bacon,1060,81,58,57,2080
+23-sept-22,cena,quesadilla,274,20,18,250,739
+23-sept-22,snack,ruffles,160,15,2,10,150
+24-sept-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+24-sept-22,comida,sushi,830,30,8,3,480
+24-sept-22,cena,dona,140,13,5,5,220
+24-sept-22,snack,salchicha,54,3.5,3,0.9,0
+25-sept-22,desayuno,Hot-Dog,230,12,5,7,0
+25-sept-22,comida,arroz blanco,43,0,3,0,0
+25-sept-22,cena,gringa,300,20,23,26,740
+25-sept-22,snack,platano,105,26.95,1.29,0.39,0
+26-sept-22,desayuno,quesadilla,274,20,18,250,739
+26-sept-22,comida,McAndCheese,155,30,6,,72
+26-sept-22,cena,cereal,200,33,9,5,2160
+26-sept-22,snack,papas fritas,312,41,3.4,15,210
+27-sept-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+27-sept-22,comida,verduras al vapor,33,5,2.4,5,0
+27-sept-22,cena,pan dulce,400,48,5,21,310
+27-sept-22,snack,fruta picada,89,22,1.5,0.4,2.3
+28-sept-22,desayuno,Omelette,207,2.2,21.85,12.29,0
+28-sept-22,comida,pizza ,180,26,9,5,410
+28-sept-22,cena,tacos dorados,198,23,4,10,1924
+28-sept-22,snack,chips,150,15,2,9,170
+29-sept-22,desayuno,helado vainilla,140,21,2,5,0
+29-sept-22,comida,Hamburgesa,144,2.2,21,4.2,147
+29-sept-22,cena,1_enchilada,168,16,6,4.7,250
+29-sept-22,snack,tecate azul,110,7,1,0,0
+30-sept-22,desayuno,chilaquiles,443,31.88,9.74,32.02,2300
+30-sept-22,comida,ensalada cesar,116,10,2.38,4.9,0
+30-sept-22,cena,dona,140,13,5,5,220
+30-sept-22,snack,cacahuates japoneses,152,14,6,8,140
+1-oct-22,desayuno,quesadilla,274,20,18,250,739
+1-oct-22,comida,arroz blanco,43,0,3,0,0
+1-oct-22,cena,yogur de frutas,80,12.4,3.6,1.5,0.15
+1-oct-22,snack,manzana,104,27.62,0.52,0.34,2
+2-oct-22,desayuno,Sandwich,302,29,23,11,711
+2-oct-22,comida,sushi,830,30,8,3,480
+2-oct-22,cena,pan tostado,125,20,3,3,120
+2-oct-22,snack,gelatina,37,2.2,0,0,0.2
+3-oct-22,desayuno,Hot-Dog,230,12,5,7,0
+3-oct-22,comida,double western bacon,1060,81,58,57,2080
+3-oct-22,cena,cereal,200,33,9,5,2160
+3-oct-22,snack,papas fritas,312,41,3.4,15,210
+4-oct-22,desayuno,quesadilla,274,20,18,250,739
+4-oct-22,comida,tacos dorados,198,23,4,10,1924
+4-oct-22,cena,dona,140,13,5,5,220
+4-oct-22,snack,fruta picada,89,22,1.5,0.4,2.3
+5-oct-22,desayuno,Sandwich,302,29,23,11,711
+5-oct-22,comida,tacos dorados,198,23,4,10,1924
+5-oct-22,cena,quesadilla,274,20,18,250,739
+5-oct-22,snack,gelatina,37,2.2,0,0,0.2
+6-oct-22,desayuno,Omelette,207,2.2,21.85,12.29,0
+6-oct-22,comida,McAndCheese,155,30,6,,72
+6-oct-22,cena,pan tostado,125,20,3,3,120
+6-oct-22,snack,platano,105,26.95,1.29,0.39,0
+7-oct-22,desayuno,quesadilla,274,20,18,250,739
+7-oct-22,comida,pechuga de pollo,145,0,22.2,6.2,66
+7-oct-22,cena,flautas,420,38,17,22,0
+7-oct-22,snack,ruffles,160,15,2,10,150
+8-oct-22,desayuno,manzana,104,27.62,0.52,0.34,2
+8-oct-22,comida,cuernito,213,30,7,6,507.9
+8-oct-22,cena,cereal,200,33,9,5,2160
+8-oct-22,snack,salchicha,54,3.5,3,0.9,0
+9-oct-22,desayuno,Sandwich,302,29,23,11,711
+9-oct-22,comida,ensalada cesar,116,10,2.38,4.9,0
+9-oct-22,cena,quesadilla,274,20,18,250,739
+9-oct-22,snack,gelatina,37,2.2,0,0,0.2
+10-oct-22,desayuno,Hot-Dog,230,12,5,7,0
+10-oct-22,comida,spaghetti rojo,361,75,11,1,0
+10-oct-22,cena,tacos de pastor,224,22.4,19.31,6.78,511.21
+10-oct-22,snack,pudin,65,5,0,5,60
+11-oct-22,desayuno,ensalada de frutas,211,38.6,5.7,3.7,85
+11-oct-22,comida,pollo teriyaki,255,,21,19,1200
+11-oct-22,cena,cuernito,213,30,7,6,507.9
+11-oct-22,snack,fruta picada,89,22,1.5,0.4,2.3
+12-oct-22,desayuno,quesadilla,274,20,18,250,739
+12-oct-22,comida,double western bacon,1060,81,58,57,2080
+12-oct-22,cena,manzana,104,27.62,0.52,0.34,2
+12-oct-22,snack,chips,150,15,2,9,170
+14-oct-22,desayuno,Huevo revuelto,199,1.96,13.01,15.21,211
+14-oct-22,comida,Hamburgesa,144,2.2,21,4.2,147
+14-oct-22,cena,yogur de frutas,80,12.4,3.6,1.5,0.15
+14-oct-22,snack,papas fritas,312,41,3.4,15,210
+15-oct-22,desayuno,manzana,104,27.62,0.52,0.34,2
+15-oct-22,comida,milanesa,265,7.19,27.27,13.17,329
+16-oct-22,desayuno,hot cakes,167,26.1,5.5,4.5,298
+16-oct-22,comida,sopa de verdura,49,7.4,2.4,0,52
+17-oct-22,desayuno,quesadilla,274,20,18,250,739
+17-oct-22,comida,ensalada cesar,116,10,2.38,4.9,0
+17-oct-22,cena,yogur de frutas,80,12.4,3.6,1.5,0.15
+17-oct-22,snack,ruffles,160,15,2,10,150
+18-oct-22,desayuno,Sandwich,302,29,23,11,711
+18-oct-22,comida,pechuga de pollo,145,0,22.2,6.2,66
+18-oct-22,cena,pan tostado,125,20,3,3,120
+18-oct-22,snack,ruffles,160,15,2,10,150
+19-oct-22,desyuno,cuernito,213,30,7,6,507.9
+19-oct-22,comida,torta cubana,558,55,31,24,0.3
+19-oct-22,cena,cereal,200,33,9,5,2160
+19-oct-22,snack,platano,105,26.95,1.29,0.39,0
+20-oct-22,desyuno,quesadilla,274,20,18,250,739
+20-oct-22,comida,sushi,830,30,8,3,480
+20-oct-22,cena,tacos de pastor,224,22.4,19.31,6.78,511.21
+20-oct-22,snack,helado vainilla,140,21,2,5,0
+21-oct-22,desyuno,Huevo revuelto,199,1.96,13.01,15.21,211
+21-oct-22,comida,chilaquiles,443,31.88,9.74,32.02,2300
+21-oct-22,cena,pan dulce,400,48,5,21,310
+21-oct-22,snack,papas fritas,312,41,3.4,15,210
+22-oct-22,desyuno,Huevo revuelto,199,1.96,13.01,15.21,211
+22-oct-22,comida,Carne asada,56,,5.44,3.64,46
+22-oct-22,cena,quesadilla,274,20,18,250,739
+22-oct-22,snack,platano,105,26.95,1.29,0.39,0
+24-oct-22,desyuno,Hot-Dog,230,12,5,7,0
+24-oct-22,comida,McAndCheese,155,30,6,0,72
+24-oct-22,cena,1_enchilada,168,16,6,4.7,250
+24-oct-22,snack,gelatina,37,2.2,0,0,0.2
+25-oct-22,desyuno,Huevo revuelto,199,1.96,13.01,15.21,211
+25-oct-22,comida,ensalada cesar,116,10,2.38,4.9,0
+25-oct-22,cena,pan tostado,125,20,3,3,120
+25-oct-22,snack,helado vainilla,140,21,2,5,0
+26-oct-22,desyuno,quesadilla,274,20,18,250,739
+26-oct-22,comida,Hamburgesa,144,2.2,21,4.2,147
+26-oct-22,cena,manzana,104,27.62,0.52,0.34,2
+26-oct-22,snack,chips,150,15,2,9,170
+27-oct-22,desyuno,Sandwich,302,29,23,11,711
+27-oct-22,comida,sushi,830,30,8,3,480
+27-oct-22,cena,yogur de frutas,80,12.4,3.6,1.5,0.15
+27-oct-22,snack,papas fritas,312,41,3.4,15,210
+28-oct-22,desyuno,Omelette,207,2.2,21.85,12.29,0
+28-oct-22,comida,pizza ,488,72,28,12,0
+28-oct-22,cena,cereal,200,33,9,5,2160
+28-oct-22,snack,fruta picada,89,22,1.5,0.4,2.3
+29-oct-22,desyuno,quesadilla,274,20,18,250,739
+29-oct-22,comida,McAndCheese,155,30,6,0,72
+29-oct-22,cena,flautas,420,38,17,22,0
+29-oct-22,snack,hot cakes,167,26.1,5.5,4.5,298
+30-oct-22,desyuno,Huevo revuelto,199,1.96,13.01,15.21,211
+30-oct-22,comida,pollo asado,236,0.8,293,123,99
+30-oct-22,cena,dona,140,13,5,5,220
+30-oct-22,snack,papas fritas,312,41,3.4,15,210
+31-oct-22,desyuno,quesadilla,274,20,18,250,739
+31-oct-22,comida,ensalada cesar,116,10,2.38,4.9,0
+31-oct-22,cena,dona,140,13,5,5,220
+31-oct-22,snack,yogur de frutas,80,12.4,3.6,1.5,0.15
+1-nov-22,desyuno,Huevo revuelto,199,1.96,13.01,15.21,211
+1-nov-22,comida,tacos de pastor,224,22.4,19.31,6.78,511.21
+1-nov-22,cena,pan dulce,400,48,5,21,310
+1-nov-22,snack,fruta picada,89,22,1.5,0.4,2.3
+2-nov-22,desyuno,Omelette,207,2.2,21.85,12.29,0
+2-nov-22,comida,pollo kfc,250,7,17,17,730
+2-nov-22,cena,pan tostado,125,20,3,3,120
+2-nov-22,snack,papas fritas,312,41,3.4,15,210
+3-nov-22,desyuno,Sandwich,302,29,23,11,711
+3-nov-22,comida,pollo teriyaki,255,,21,19,1200
+3-nov-22,cena,pan tostado,125,20,3,3,120
+3-nov-22,snack,ruffles,160,15,2,10,150
+4-nov-22,desyuno,chilaquiles,443,31.88,9.74,32.02,2300
+4-nov-22,comida,double western bacon,1060,81,58,57,2080
+4-nov-22,cena,manzana,104,27.62,0.52,0.34,2
+4-nov-22,snack,gelatina,37,2.2,0,0,0.2
+5-nov-22,desyuno,ensalada de frutas,211,38.6,5.7,3.7,85
+5-nov-22,comida,torta cubana,558,55,31,24,0.3
+5-nov-22,cena,cereal,200,33,9,5,2160
+5-nov-22,snack,papas fritas,312,41,3.4,15,210
+6-nov-22,desyuno,Hot-Dog,230,12,5,7,0
+6-nov-22,comida,paella,215,21.1,12,8.7,315
+6-nov-22,cena,hot cakes,167,26.1,5.5,4.5,298
+6-nov-22,snack,platano,105,26.95,1.29,0.39,0
+7-nov-22,desyuno,paella,215,21.1,12,8.7,315
+7-nov-22,comida,pasta a la mantequilla,130,7,20,2,2000
+7-nov-22,cena,quesadilla,274,20,18,250,739
+7-nov-22,snack,chips,150,15,2,9,170
+8-nov-22,desyuno,torta de discada,362,63,5,10,2300
+8-nov-22,comida,tacos de pastor,224,22.4,19.31,6.78,511.21
+8-nov-22,cena,pan tostado,125,20,3,3,120
+8-nov-22,snack,papas fritas,312,41,3.4,15,210
+9-nov-22,desyuno,quesadilla,274,20,18,250,739
+9-nov-22,comida,pechuga de pollo,145,0,22.2,6.2,66
+9-nov-22,cena,flautas,420,38,17,22,0
+9-nov-22,snack,papas fritas,312,41,3.4,15,210
+10-nov-22,desyuno,Omelette,207,2.2,21.85,12.29,0
+10-nov-22,comida,ensalada cesar,116,10,2.38,4.9,0
+10-nov-22,cena,pan tostado,125,20,3,3,120
+10-nov-22,snack,fruta picada,89,22,1.5,0.4,2.3
+11-nov-22,desyuno,chilaquiles,443,31.88,9.74,32.02,2300
+11-nov-22,comida,arroz blanco,43,0,3,0,0
+11-nov-22,cena,cereal,200,33,9,5,2160
+11-nov-22,snack,chips,150,15,2,9,170

@@ -1,0 +1,1174 @@
+---
+title: "Analisis Nutrimental Personal"
+author: "Aguilar - A01735612"
+editor: visual
+format:
+  html:
+    theme: vapor
+    self-contained: true
+    toc: true
+    toc-location: left
+    toc-title: "Contenido"
+    code-link: true
+editor_options:
+  chunk_output_type: console
+---
+
+# Sobre el proyecto
+Como estudiantes de universidad y futuros agentes de cambio en nuestra área de estudio, debemos prepararnos no solo de manera académica, sino también en lo que concierne al cuidado personal y la salud siendo de vital importancia tener buenos hábitos alimenticios para tener una vida plena y sana. Sin embargo la escasez de información y un desinterés por mantener un buen consumo alimenticio.
+ 
+## Objetivo del proyecto
+Se recolectaron datos nutrimentales de un estudiante de universidad de primer semestre durante aproximadamente 11 semanas donde se registró el contenido calórico, carbohidratos, proteínas, lípidos(Grasas) y el sodio de cada alimento consumido por este periodo de tiempo, para que de esta manera podamos predecir el contenido calórico de un alimento en relación a cada grupo de macronutrientes que este contenga.
+ 
+De la misma manera, el presente estudio pretende establecer una predicción del contenido calórico de un alimento en base a los macronutrientes de este mismo, con base a los que más aportan a este rubro. Es decir buscar qué macronutriente aporta más al aumento del contenido calórico.
+ 
+## ¿Por qué realizamos este proyecto?
+Como mencionamos anteriormente, el tener una dieta sana es de suma importancia para el cuidado personal, sin embargo no es tan sencillo tomar decisiones sin un conocimiento o con escasa información. Se pretende que este estudio ayude al usuario a tomar decisiones sobre su consumo alimenticio y así aportar a mejorar su dieta.
+ 
+## Metodología
+El presente informe se realizó utilizando las herramientas de *Quarto* para la realización del reporte y el lenguaje de programación de *R* para el análisis de los datos obtenidos. Fue dividido en 4 secciones principales con el fin de facilitar su lectura al usuario. A continuación se da un resumen rápido de todas las secciones.
+ 
+  1. **Análisis exploratorio:** En esta sección tiene el fin de conocer y comprender cómo  se comportan los datos que tenemos de manera general.
+ 
+  2. **Análisis por variable:** Analizamos el comportamiento de las variables respecto al contenido calórico, así como un modelo de regresión lineal simple para analizar la relación de las variables con respecto al contenido calórico de los alimentos. Así como una comparativa del comportamiento de todas las variables.
+ 
+  3. **Modelos de predicción para calorías:** Utilizando todas las variables, ajustamos diferentes modelos con el fin de encontrar un modelo que se adapte de mejor manera a los datos obtenidos y de esta manera poder realizar predicciones del contenido calórico.
+ 
+  4. **Predicciones:** Utilizando los modelos de predicción anteriores, realizamos una predicción con algunos datos preestablecidos para conocer el contenido calórico de cualquier alimento.
+
+# Cargamos Librerías y los datos que utilizaremos
+
+```{r}
+#| label: Library And Data
+#| fig-cap: Vista previa de los datos
+#| warning: false
+
+library(tidyverse)
+library(tidymodels)
+library(ggplot2)
+library(plotly)
+library(RColorBrewer)
+library(vip)
+library(knitr)
+library(rmarkdown)
+
+nutri <- read_csv("A01735612_registroNutrimental-tabla.csv")
+paged_table(nutri, options = list(rows.print = 10, cols.print = 9))
+
+```
+
+## Limpiamos y convertimos los datos
+Convertimos todos los caracteres como factores, para poder operarlos.
+
+```{r}
+#| output: false
+
+#Convertimso caracteres a factor
+nutri %>% mutate(across(where(is.character), as_factor))
+
+```
+
+# Parte 1. Analisis Exploratorio de los datos
+
+## Parte 1.2. Obtenemos el total de alimentos
+En la siguiente tabla apreciamos las diferentes tipos de alimentos consumidos en total durante el registro de los datos junto con sus propiedades.
+
+```{r}
+#| label: Total de Comidas diferentes.
+#| fig-cap: Todos los alimentos presentes
+#| warning: false
+
+#Obtenemos las columans que deseamos separar
+separa <- nutri %>% 
+  select(alimento, 
+        contenido_calorico,
+        carbohidratos,
+        proteinas,
+        lipidos,
+        sodio) %>% na.omit()
+
+aliemntos <- separa %>% # Esta variable la utilizaremos para usar el top
+  distinct()
+paged_table(aliemntos, options = list(rows.print = 10, cols.print = 6))
+
+```
+
+## Parte 1.3. Obtenemos la media total de nuestras variables
+Analizamos el promedio de calorias, carbohidratos, proteinas, grasas y sodio totales.
+
+```{r}
+#| label: Valores medios de variables numericas
+#| fig-cap: Promedio total de todos los datos recopilados
+#| warning: false
+
+#Obtenemso el premdio de nuestaras variables
+valores_medios <- nutri %>% 
+  summarize(calorias = mean(contenido_calorico), # Media calorias
+            carbohidratos = mean(carbohidratos, na.rm = TRUE), # Media carbohidratos
+            proteinas = mean(proteinas, na.rm = TRUE), # Media proteinas
+            grasas = mean(lipidos, na.rm = TRUE), # Media grasas
+            sodio = mean(sodio, na.rm = TRUE)) # Media sodio
+
+valores_medios %>% 
+  kable(digits = 3, 
+        format.args = list(big.mark = ",")) #Lo mostramos en una tabla
+
+```
+
+## Parte 1.4. Resumenes estadísticos
+En la siguiente sección, se presentarán los resúmenes estadísticos de cada columna, es decir obtenemos el valor mínimo, el máximo, el promedio y la mediana de cada columna del total de datos recopilados.
+
+### Resumen estadístico del contenido calórico
+
+```{r}
+#| label: Resumen estadistico de la Calorias
+#| fig-cap: Analisis Estadistico de Calorias
+#| warning: false
+
+calos <- nutri %>% 
+  select(contenido_calorico) %>% 
+  summarize(Minimo = min(contenido_calorico),
+            Promedio = mean(contenido_calorico),
+            Mediana = median(contenido_calorico),
+            Maximo = max(contenido_calorico)) 
+
+calos %>% 
+  kable(digits = 3, 
+        format.args = list(big.mark = ","))
+
+```
+
+### Resumen estadístico de Carbohidratos
+
+```{r}
+#| label: Resumen estadistico de carbohidratos
+#| fig-cap: Analisis Estadistico de carbohidratos
+#| warning: false
+
+carbo <- nutri %>% 
+  select(carbohidratos) %>% 
+  summarize(Minimo = min(carbohidratos, na.rm = TRUE),
+            Promedio = mean(carbohidratos, na.rm = TRUE),
+            Mediana = median(carbohidratos, na.rm = TRUE),
+            Maximo = max(carbohidratos, na.rm = TRUE)) 
+
+carbo %>% 
+  kable(digits = 3, 
+        format.args = list(big.mark = ","))
+
+```
+
+### Resumen estadístico de proteínas
+
+```{r}
+#| label: Resumen estadistico de proteinas
+#| fig-cap: Analisis Estadistico de proteinas
+#| warning: false
+
+prote <- nutri %>% 
+  select(proteinas) %>% 
+  summarize(Minimo = min(proteinas),
+            Promedio = mean(proteinas),
+            Mediana = median(proteinas),
+            Maximo = max(proteinas)) 
+
+prote %>% 
+  kable(digits = 3, 
+        format.args = list(big.mark = ","))
+
+```
+
+### Resumen estadístico de lípidos
+
+```{r}
+#| label: Resumen estadistico de lipidos
+#| fig-cap: Analisis Estadistico de lipidos
+#| warning: false
+
+grasa <- nutri %>% 
+  select(lipidos) %>% 
+  summarize(Minimo = min(lipidos, na.rm = TRUE),
+            Promedio = mean(lipidos, na.rm = TRUE),
+            Mediana = median(lipidos, na.rm = TRUE),
+            Maximo = max(lipidos, na.rm = TRUE)) 
+
+grasa %>% 
+  kable(digits = 3, 
+        format.args = list(big.mark = ","))
+
+```
+
+### Resumen estadístico de Sodio
+
+```{r}
+#| label: Resumen estadistico de sodio
+#| fig-cap: Analisis Estadistico de sodio
+#| warning: false
+
+sod <- nutri %>% 
+  select(sodio) %>% 
+  summarize(Minimo = min(sodio),
+            Promedio = mean(sodio),
+            Mediana = median(sodio),
+            Maximo = max(sodio)) 
+
+sod %>% 
+  kable(digits = 3, 
+        format.args = list(big.mark = ","))
+
+```
+
+## Parte 1.5. Realizamos un top respecto a cada columna
+Como parte de nuestro análisis, realizamos un top 10 de los alimentos que contienen más de cada microalimento.
+
+### Top 10 alimentos con más calorías
+```{r}
+#| label: TOP Calorias
+#| warning: false
+
+cal <- aliemntos %>% 
+  select(alimento, contenido_calorico) %>% #Sepramso losa liemtos y las calorias
+  slice_max(order_by = contenido_calorico, n = 10) #HAcemos el top 10
+
+cal %>%
+  kable(digits = 3,
+        format.args = list(big.mark = ",")) #Lo mostramos en una tabla
+
+```
+
+### Top 10 alimentos con más carbohidratos
+```{r}
+#| label: TOP Carbohidratos
+#| fig-cap: Top 10 aliemntos con mas Carbohidratos
+#| warning: false
+
+car <- aliemntos %>% 
+  select(alimento, carbohidratos) %>%
+  slice_max(order_by = carbohidratos, n = 10)
+
+car %>%
+  kable(digits = 3,
+        format.args = list(big.mark = ","))
+
+```
+
+### Top 10 alimentos con más proteínas
+```{r}
+#| label: TOP proteinas
+#| fig-cap: Top 10 aliemntos con mas proteinas
+#| warning: false
+
+protes <- aliemntos %>% 
+  select(alimento, proteinas) %>%
+  slice_max(order_by = proteinas, n = 10)
+
+protes %>%
+  kable(digits = 3,
+        format.args = list(big.mark = ","))
+
+```
+
+### Top 10 alimentos con más grasas
+```{r}
+#| label: TOP grasas
+#| fig-cap: Top 10 aliemntos con mas grasa
+#| warning: false
+
+lip <- aliemntos %>% 
+  select(alimento, lipidos) %>%
+  slice_max(order_by = lipidos, n = 10)
+
+lip %>%
+  kable(digits = 3,
+        format.args = list(big.mark = ","))
+
+```
+
+### Top 10 alimentos con más Sodio
+```{r}
+#| label: TOP Sodio
+#| fig-cap: Top 10 aliemntos con mas Sodio
+#| warning: false
+
+sod <- aliemntos %>% 
+  select(alimento, sodio) %>%
+  slice_max(order_by = sodio, n = 10)
+
+sod %>%
+  kable(digits = 3,
+        format.args = list(big.mark = ","))
+
+```
+
+# Parte 2. Análisis por Variable
+
+## Parte 2.1. Preparación de modelo y Preprocesamiento
+Para realizar la comprobación de variables, ajustaremos una regresión lineal para cada variable respecto a las calorías
+
+### Parte 2.1.1. Preparamos las variables que usaremos
+```{r}
+#| label: Preparacion Modelo
+
+#Entrenamos el modelo
+nutri_split <- initial_split(separa, strata = contenido_calorico)
+
+#Declaramos los datos para entrenamiento
+nutri_train <- nutri_split %>% training()
+ntru_test <- nutri_split %>% testing()
+
+```
+
+### Parte 2.1.2. Preparamos la receta
+Una vez obtenida la receta podemos realizar las operaciones que deseemos, en este caso realizaremos una regresión lineal por cada columna de tal manera que podamos utilizar esta receta para todos los casos.
+
+```{r}
+#| label: Receta general apra todos los modelos
+
+receta <- recipe(contenido_calorico ~ ., data = nutri_train) %>%  #Asigna los roles correspodientes. CON TODAS LAS VARIABLES
+  step_other(alimento,threshold = 0.15)  %>% #Los aprametros siguienets son necesarios para los mdoelos KKNN
+  step_nzv(all_predictors()) %>%
+  step_dummy(all_nominal_predictors()) %>%
+  step_normalize(all_numeric_predictors())
+
+```
+
+### Parte 2.1.3. Realizamos un preprocesamiento de los datos
+Antes de realizar con profundidad los datos, podemos realizar una pequeña aproximación de lo que podemos obtener los datos, para esto utilizaremos la receta creada y lo pondremos en un gráfico.
+
+```{r}
+#| label: Preprocesamiento de los datos
+#| fig-cap: Relacion Calorias con las demas columnas
+#| warning: false
+
+prepros <- prep(receta) %>% bake(new_data = NULL) %>%
+  corrr::correlate() %>%
+  corrr::focus(contenido_calorico) %>%
+  ggplot(aes(x = contenido_calorico, y = fct_reorder(term, contenido_calorico),
+             fill = contenido_calorico > 0)) + 
+  geom_col()
+ggplotly(prepros)
+
+```
+
+Como podemos apreciar en la gráfica, vemos una relación directa entre que, a amyor carbohidratos, mayor calorías, sin embargo es de vital importancia no quedarnos solo con esta información sin una comprobación, para ello realizaremos una regresión lineal simple por cada variable.
+
+## Parte 2.2. Regresión lineal de las variables
+
+### Parte 2.2.1. Regresión lineal correspondiente a carbohidratos
+
+### Separamos los carbohidratos
+```{r}
+#| label: For carbos
+data_carbo <- separa %>% select(contenido_calorico, carbohidratos)
+
+```
+
+### Ajustamos una regresion para carbohidratos
+```{r}
+#| label: Model For carbo
+
+carbo_split <- initial_split(data_carbo) #Divide los datos en 3/4
+
+# Asiganmos los verdadreos y entrenamiento
+carbo_train <- training(carbo_split) #Asignamso lo q entrenaremos
+carbo_test <- testing(carbo_split) #Asigna la evaluacion
+
+# Declaramos un modelo Lineal
+lr_carbo <- linear_reg() %>%
+  set_engine('lm') %>%
+  set_mode('regression')
+
+# Ajustamos el modelo
+lr_fit_carbo <- lr_carbo %>%
+  fit(contenido_calorico ~ ., data = carbo_train) #entranamos el modelo
+
+print(lr_fit_carbo) 
+
+```
+
+### Obtenemos un Resumen rapido del modelo
+En la siguiente sección podemos apreciar un resumen rápido del modelo, este nos sirve para tener una idea previa de los resultados que obtuvimos.
+
+```{r}
+#| label: Resumen del modelo
+summary(lr_fit_carbo$fit) %>% print()
+
+```
+
+### Realizamos una evaluacion
+```{r}
+#| label: Evaluacion del modelo apra carbo
+#| fig-cap: Evaluacion del mdoelo lineal de carbohidratos
+#| warning: false
+
+lr_results_carbo <- carbo_test %>%
+  select(contenido_calorico) %>%
+  mutate(predict(lr_fit_carbo, new_data = carbo_test)) %>%
+  mutate(respecto = "carbohidratos")
+
+paged_table(lr_results_carbo, options = list(rows.print = 10))
+
+```
+
+### Calculamos las metricas del modelo
+Las siguientes metrcias nos presentaran que tan bueno o que tan malo es el modelo
+
+```{r}
+#| label: Metricas carbo
+#| fig-cap: Metricas del modelo de carbohdratos
+#| warning: false
+
+metricas_carbo <- metrics(lr_results_carbo, truth = contenido_calorico, estimate = .pred)
+
+metricas_carbo %>% kable(digits = 3, 
+        format.args = list(big.mark = ",")) #Lo mostramos en una tabla
+
+```
+
+#### Interpretacion de las metricas de carbohidratos
+1.  **Coeficiente de determinación (RSQ):** Nos indica que tan bueno es un modelo de predicción con valores entre 1 y 0. Siendo 0 muy malo y 1 muy bueno. Es importante mencionar que cada vez que se ejecute el código fuente del presente informe, estos valores cambiarán debido a que *R* toma diferentes valores cada vez que se ejecuta el script.
+ 
+2.  **Distancia media cuadrática mínima (RMSE):** Nos indica que tan bueno es un modelo de predicción, con al diferencia que este se da en valores numéricos reales de 0 a cualquier número donde *x = 0* .Donde 0 es mejor y mientras más se aleje el valor del cero, menor será su nivel de predicción.
+
+### Finalmente podemos realziar una grafica del modelo
+
+```{r}
+#| label: grafica carbo
+#| fig-cap: Grafica del modelo lineal de carbohidratos
+#| warning: false
+
+grafica_carbo <- lr_results_carbo %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(grafica_carbo)
+
+```
+
+#### Describcion de la grafica
+En la siguinte grafica podemos apreciar el comportamiento de los carbohidratos con la variable predicotra, es decir el contenido calorico,
+
+### Parte 2.2.2. Regresion lineal correspondiente a proteinas
+
+#### Separamos los proteinas
+```{r}
+#| label: For proteinas
+data_prote <- separa %>% select(contenido_calorico, proteinas)
+
+```
+
+#### Ajustamos una regresion para proteinas
+```{r}
+#| label: Model For proteinas
+
+prote_split <- initial_split(data_prote) #Divide los datos en 3/4
+
+# Asiganmos los verdadreos y entrenamiento
+prote_train <- training(prote_split) #Asignamso lo q entrenaremos
+prote_test <- testing(prote_split) #Asigna la evaluacion
+
+# Declaramos un modelo Lineal
+lr_prote <- linear_reg() %>%
+  set_engine('lm') %>%
+  set_mode('regression')
+
+# Ajustamos el modelo
+lr_fit_prote <- lr_prote %>%
+  fit(contenido_calorico ~ ., data = prote_train) #entranamos el modelo
+
+print(lr_fit_prote) 
+
+```
+
+#### Obtenemos un Resumen rapido del modelo
+En la siguiente seccion podemos apreciar un resumen rapido del modelo, este nso sirve para tener una diea previa de los resulatdos que obtuvimos
+
+```{r}
+#| label: Resumen del modelo proteinas
+summary(lr_fit_prote$fit) %>% print()
+
+```
+
+#### Realizamos una evaluacion
+```{r}
+#| label: Evaluacion del modelo apra proteinas
+#| fig-cap: Evaluacion del mdoelo lineal de proteinas
+#| warning: false
+
+lr_results_prote <- prote_test %>%
+  select(contenido_calorico) %>%
+  mutate(predict(lr_fit_prote, new_data = prote_test)) %>%
+  mutate(respecto = "Proteinas")
+
+paged_table(lr_results_prote, options = list(rows.print = 10))
+
+```
+
+#### Calculamos las metricas del modelo de proteinas
+Las siguientes metrcias nos presentaran que tan bueno o que tan malo es el modelo
+
+```{r}
+#| label: Metricas proteinas
+#| fig-cap: Metricas del modelo de proteinas
+#| warning: false
+
+metricas_prote <- metrics(lr_results_prote, truth = contenido_calorico, estimate = .pred)
+
+metricas_prote %>% kable(digits = 3, 
+        format.args = list(big.mark = ",")) #Lo mostramos en una tabla
+
+```
+
+#### Interpretacion de las metricas de proteinas
+1.  **Coeficiente de determinación (RSQ):** Nos indica que tan bueno es un modelo de predicción con valores entre 1 y 0. Siendo 0 muy malo y 1 muy bueno. Es importante mencionar que cada vez que se ejecute el código fuente del presente informe, estos valores cambiarán debido a que *R* toma diferentes valores cada vez que se ejecuta el script.
+ 
+2.  **Distancia media cuadrática mínima (RMSE):** Nos indica que tan bueno es un modelo de predicción, con al diferencia que este se da en valores numéricos reales de 0 a cualquier número donde *x = 0* .Donde 0 es mejor y mientras más se aleje el valor del cero, menor será su nivel de predicción.
+
+#### Finalmente podemos realziar una grafica del modelo
+```{r}
+#| label: grafica proteinas
+#| fig-cap: Grafica del modelo lineal de proteinas
+#| warning: false
+
+grafica_prote <- lr_results_prote %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(grafica_prote)
+
+```
+
+#### Descripción de la gráfica
+Nuestra gráfica nos muestra de manera visual cómo se comporta el modelo (Lineal roja delgada) y como las variable se relacionan para este modelo, junto cona visualización del error que el modelo tiene.
+
+
+
+
+### Parte 2.2.3. Regresion lineal correspondiente a lipidos
+
+### Separamos los lipidos
+```{r}
+#| label: For lipidos
+data_lipidos <- separa %>% select(contenido_calorico, lipidos)
+
+```
+
+### Ajustamos una regresion para lipidos
+```{r}
+#| label: Model For lipidos
+
+lipidos_split <- initial_split(data_lipidos) #Divide los datos en 3/4
+
+# Asiganmos los verdadreos y entrenamiento
+lipidos_train <- training(lipidos_split) #Asignamso lo q entrenaremos
+lipidos_test <- testing(lipidos_split) #Asigna la evaluacion
+
+# Declaramos un modelo Lineal
+lr_lipidos <- linear_reg() %>%
+  set_engine('lm') %>%
+  set_mode('regression')
+
+# Ajustamos el modelo
+lr_fit_lipidos <- lr_lipidos %>%
+  fit(contenido_calorico ~ ., data = lipidos_train) #entranamos el modelo
+
+print(lr_fit_lipidos) 
+
+```
+
+### Obtenemos un Resumen rápido del modelo
+En la siguiente sección podemos apreciar un resumen rápido del modelo, este nos sirve para tener una idea previa de los resultados que obtuvimos
+
+
+```{r}
+#| label: Resumen del modelo lipidos
+summary(lr_fit_lipidos$fit) %>% print()
+
+```
+
+### Realizamos una evaluacion
+```{r}
+#| label: Evaluacion del modelo apra lipidos
+#| fig-cap: Evaluacion del mdoelo lineal de lipidos
+#| warning: false
+
+lr_results_lipidos <- lipidos_test %>%
+  select(contenido_calorico) %>%
+  mutate(predict(lr_fit_lipidos, new_data = lipidos_test)) %>%
+  mutate(respecto = "Grasas")
+
+paged_table(lr_results_lipidos, options = list(rows.print = 10))
+
+```
+
+### Calculamos las metricas del modelo de lipidos
+Las siguientes metrcias nos presentaran que tan bueno o que tan malo es el modelo
+
+```{r}
+#| label: Metricas lipidos
+#| fig-cap: Metricas del modelo de lipidos
+#| warning: false
+
+metricas_lipidos <- metrics(lr_results_lipidos, truth = contenido_calorico, estimate = .pred)
+
+metricas_lipidos %>% kable(digits = 3, 
+        format.args = list(big.mark = ",")) #Lo mostramos en una tabla
+
+```
+
+#### Interpretacion de las metricas de lipidos
+1.  **Coeficiente de determinación (RSQ):** Nos indica que tan bueno es un modelo de predicción con valores entre 1 y 0. Siendo 0 muy malo y 1 muy bueno. Es importante mencionar que cada vez que se ejecute el código fuente del presente informe, estos valores cambiarán debido a que *R* toma diferentes valores cada vez que se ejecuta el script.
+ 
+2.  **Distancia media cuadrática mínima (RMSE):** Nos indica que tan bueno es un modelo de predicción, con al diferencia que este se da en valores numéricos reales de 0 a cualquier número donde *x = 0* .Donde 0 es mejor y mientras más se aleje el valor del cero, menor será su nivel de predicción.
+
+### Finalmente podemos realziar una grafica del modelo
+```{r}
+#| label: grafica lipidos
+#| fig-cap: Grafica del modelo lineal de lipidos
+#| warning: false
+
+grafica_lipidos <- lr_results_lipidos %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(grafica_lipidos)
+
+```
+
+#### Descripción de la gráfica
+Nuestra gráfica nos muestra de manera visual cómo se comporta el modelo (Lineal roja delgada) y como las variable se relacionan para este modelo, junto cona visualización del error que el modelo tiene.
+
+### Parte 2.2.4. Regresion lineal correspondiente a sodio
+
+### Separamos los sodio
+```{r}
+#| label: For sodio
+data_sodio <- separa %>% select(contenido_calorico, sodio)
+
+```
+
+### Ajustamos una regresion para sodio
+```{r}
+#| label: Model For sodio
+
+sodio_split <- initial_split(data_sodio) #Divide los datos en 3/4
+
+# Asiganmos los verdadreos y entrenamiento
+sodio_train <- training(sodio_split) #Asignamso lo q entrenaremos
+sodio_test <- testing(sodio_split) #Asigna la evaluacion
+
+# Declaramos un modelo Lineal
+lr_sodio <- linear_reg() %>%
+  set_engine('lm') %>%
+  set_mode('regression')
+
+# Ajustamos el modelo
+lr_fit_sodio <- lr_sodio %>%
+  fit(contenido_calorico ~ ., data = sodio_train) #entranamos el modelo
+
+print(lr_fit_sodio) 
+
+```
+
+### Obtenemos un Resumen rapido del modelo
+En la siguiente seccion podemos apreciar un resumen rapido del modelo, este nso sirve para tener una diea previa de los resulatdos que obtuvimos
+
+```{r}
+#| label: Resumen del modelo sodio
+summary(lr_fit_sodio$fit) %>% print()
+
+```
+
+### Realizamos una evaluacion
+```{r}
+#| label: Evaluacion del modelo apra sodio
+#| fig-cap: Evaluacion del mdoelo lineal de sodio
+#| warning: false
+
+lr_results_sodio <- sodio_test %>%
+  select(contenido_calorico) %>%
+  mutate(predict(lr_fit_sodio, new_data = sodio_test)) %>%
+  mutate(respecto = "Sodio")
+
+paged_table(lr_results_sodio, options = list(rows.print = 10))
+
+```
+
+### Calculamos las metricas del modelo de sodio
+Las siguientes metrcias nos presentaran que tan bueno o que tan malo es el modelo
+
+```{r}
+#| label: Metricas sodio
+#| fig-cap: Metricas del modelo de sodio
+#| warning: false
+
+metricas_sodio <- metrics(lr_results_sodio, truth = contenido_calorico, estimate = .pred)
+
+metricas_sodio %>% kable(digits = 3, 
+        format.args = list(big.mark = ",")) #Lo mostramos en una tabla
+
+```
+
+#### Interpretacion de las metricas de sodio
+1.  **Coeficiente de determinación (RSQ):** Nos indica que tan bueno es un modelo de predicción con valores entre 1 y 0. Siendo 0 muy malo y 1 muy bueno. Es importante mencionar que cada vez que se ejecute el código fuente del presente informe, estos valores cambiarán debido a que *R* toma diferentes valores cada vez que se ejecuta el script.
+ 
+2.  **Distancia media cuadrática mínima (RMSE):** Nos indica que tan bueno es un modelo de predicción, con al diferencia que este se da en valores numéricos reales de 0 a cualquier número donde *x = 0* .Donde 0 es mejor y mientras más se aleje el valor del cero, menor será su nivel de predicción. 
+
+### Finalmente podemos realziar una grafica del modelo
+
+```{r}
+#| label: grafica sodio
+#| fig-cap: Grafica del modelo lineal de sodio
+#| warning: false
+
+grafica_sodio <- lr_results_sodio %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(grafica_sodio)
+
+```
+
+#### Describcion de la grafica
+
+## Parte 2.3. Comparación de las variables entre sí
+A continuación se realiza una comparación de los resultados de las regresiones lineales de cada variable respecto a las calorías, para esto realizaremos una comparación de gráficas para que de esta manera podamos apreciar visualmente cómo se comportan las variables de manera individual respecto al contenido calórico y cual puede llegar a aportar más a la distribución de las calorías en los alimentos.
+
+```{r}
+#| label: Comparacion de las variables
+#| fig-cap: Comparacion visual de las regresiones de cada variable
+#| warning: false
+
+comp <- bind_rows(lr_results_carbo, lr_results_prote, lr_results_lipidos, lr_results_sodio) %>% 
+  ggplot(aes(x = .pred, y = contenido_calorico, color =  respecto)) +
+  geom_point(alpha = 0.1) +
+  geom_abline(color = "darkred") +
+  facet_wrap(~ respecto) + #significa que voy a realizar facetas para cada modelo.
+  theme(legend.position = "none")
+ggplotly(comp)
+
+```
+
+
+# Parte 3. Modelos de predicción para calorías
+A continuación se presentan 4 modelos de predicción con diferentes algoritmos para realizar esta comprobación, el fin de hacer 4, es buscar qué modelo se ajusta mejor a nuestro datos para de esta manera tener predicciones más certeras usando el modelo mejor adaptado.
+
+## Parte 3.1. Realizamos un modelo de regresion lineal multiple
+
+### Parte 3.1.1. Preparamos el modelo lineal multiple
+```{r}
+#| label: Regresion lienal multiple 
+
+lr_model <- linear_reg() %>% 
+  set_engine("lm") %>%
+  set_mode("regression")
+
+```
+
+### Parte 3.1.2. Realziamos el Workflow del modelo lineal
+```{r}
+#| label: Wf RLM
+
+lr_workflow <- workflow() %>%
+  add_model(lr_model) %>%
+  add_recipe(receta) %>%
+  print()
+
+```
+
+### Parte 3.1.3. Ajustamos el modelo lineal
+```{r}
+#| label: Ajuste LR
+
+lr_fit <- lr_workflow %>%
+  fit(nutri_train) %>%
+  print()
+
+```
+
+### Parte 3.1.4. Evaluamos el modelo lineal
+```{r}
+#| label: Evaluacion LR
+#| fig-cap: Evaluacion del modelo de regresion lineal multiple
+#| warning: false
+
+lr_results <- ntru_test %>%
+  select(contenido_calorico) %>%
+  mutate(predict(lr_fit, new_data = ntru_test),
+         model = "linear regression")
+paged_table(lr_results, options = list(rows.print = 10))
+
+```
+
+### Parte 3.1.5. Calculamos las metricas del modelo lineal
+```{r}
+#| label: Metrics LR
+#| fig-cap: Evaluacion del modelo de regresion lineal multiple
+#| warning: false
+
+metricas <- metrics(lr_results, truth = contenido_calorico, estimate = .pred) %>%
+  mutate(model = "lineal regression")
+paged_table(metricas)
+
+```
+
+### Parte 3.1.6 Graficamos el modelo lineal
+```{r}
+#| label: Grafico LR
+#| fig-cap: Grafico del modelo de regresion lineal
+#| warning: false
+
+grafica_lr <- lr_results %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(grafica_lr)
+
+```
+
+## Parte 3.2. Realizamos un modelo utilizando el metodo de Random Forest
+
+### Parte 3.2.1. Preparamos el modelo de Random Forest
+```{r}
+#| label: Model prepare RF
+
+rf_model <- rand_forest() %>% 
+  set_engine("ranger") %>% 
+  set_mode("regression")
+
+```
+
+### Parte 3.2.2. Realizamos el Workflow de Random Forest
+```{r}
+#| label: WorkFlow for Random Forest
+rf_wf <- workflow() %>% 
+  add_model(rf_model) %>% 
+  add_recipe(receta) %>%
+  print()
+
+```
+
+### Parte 3.2.3. Ajustamos el modelo de Random Forest
+```{r}
+#| label: Ajuste de Random Forest
+
+rf_fit <- rf_wf %>% 
+  fit(nutri_train) %>%
+  print()
+
+```
+
+### Parte 3.2.4. Evaluamos el modelo de Random FOrest
+```{r}
+#| label: Evaluacion Random forest
+rf_results <- ntru_test %>% 
+  select(contenido_calorico) %>% 
+  mutate(predict(rf_fit, new_data = ntru_test),
+         model = "random forest") 
+paged_table(rf_results, options = list(rows.print = 10))
+
+```
+
+### Parte 3.2.5. Calculamos las metricas del modelo de Random Forest
+```{r}
+#| label: Metricas Random Forest
+#| fig-cap: Metrcias del modelo random forest
+#| warning: false
+rf_metrics <- metrics(rf_results, truth = contenido_calorico, estimate = .pred) %>% 
+  mutate(model = "random forest")
+paged_table(rf_metrics)
+
+```
+
+### Parte 3.2.6. Graficamos el modelo de Random Forest
+```{r}
+#| label: Grafica del Random Forest
+#| fig-cap: Grafico del modelo Random Forest
+#| warning: false
+
+graf_RF <- rf_results %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(graf_RF)
+
+```
+
+## Parte 3.3. Realizamos un modelo utilizando el metodo de Vecinos Cercanos K (KKNN).
+
+### Parte 3.3.1. Preparamos el modelo KKNN
+
+```{r}
+#| label: Model kknn prepare
+
+kknn_model <- nearest_neighbor() %>% 
+  set_engine("kknn") %>% 
+  set_mode("regression")
+
+```
+
+### Parte 3.3.2. Realizamos el workflow para KKNN
+
+```{r}
+#| label: Workflow KKNN
+
+kknn_wf <- workflow() %>% 
+  add_model(kknn_model) %>% 
+  add_recipe(receta) %>%
+  print()
+
+```
+
+### Parte 3.3.3. Ajustamos el modelo KKNN
+
+```{r}
+#| label: Ajustamos el modelo KKNN
+kknn_fit <- kknn_wf %>% 
+  fit(nutri_train) %>%
+  print()
+
+```
+
+### Parte 3.3.4. Evaluamos el modelo KKNN
+
+```{r}
+#| label: Evaluamos KKNN
+#| fig-cap: Evaluacion del modelo de Nearest Neighbours
+#| warning: false
+
+kknn_results <- ntru_test %>% 
+  select(contenido_calorico) %>% 
+  mutate(predict(kknn_fit, new_data = ntru_test),
+         model = "nearest neighbors")
+
+paged_table(kknn_results, options = list(rows.print = 10))
+
+```
+
+### Parte 3.3.5. Calculamos las Metricas del modelo KKNN
+
+```{r}
+#| label: Metricas KKNN
+
+kknn_metrics <- metrics(kknn_results, truth = contenido_calorico, estimate = .pred) %>% 
+  mutate(model = "nearest neighbors")
+paged_table(kknn_metrics)
+
+```
+
+### Parte 3.3.6. Graficamos el Modelo KKNN
+
+```{r}
+#| label: Grafica del KKNN
+#| fig-cap: Grafico del modelo Neareast Neighbours
+#| warning: false
+
+graf_KKNN <- kknn_results %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(graf_KKNN)
+
+```
+
+## Parte 3.4. Realizamos un modelo utilizando Regresion Lineal Generalizada
+
+### Parte 3.4.1. Preparamos el modelo RLG
+
+```{r}
+#| label: Model prepare RLG
+
+rgl_model <- linear_reg(penalty = 0.01, mixture = 0.5) %>% 
+  set_engine("glmnet") %>% 
+  set_mode("regression")
+
+```
+
+### Parte 3.4.2. Realizamos el Workflow para RLG
+
+```{r}
+#| label: Workflow RLG
+
+rgl_wf <- workflow() %>% 
+  add_model(rgl_model) %>% 
+  add_recipe(receta) %>%
+  print()
+
+```
+
+### Parte 3.4.3. Ajustamos el Modelo RLG
+
+```{r}
+#| label: Ajuste RLG
+
+rgl_fit <- rgl_wf %>% 
+  fit(nutri_train) %>% 
+  print()
+
+```
+
+### Parte 3.4.4. Evaluamos el modelo RLG
+
+```{r}
+#|label: Evaluacion RLG
+#| fig-cap: Evaluacion del modelo de Regresion Lineal Multiple Generalziada
+#| warning: false
+
+rgl_results <- ntru_test %>% 
+  select(contenido_calorico) %>% 
+  mutate(predict(rgl_fit, new_data = ntru_test),
+         model = "Generalized linear regression")
+paged_table(rgl_results, options = list(rows.print = 10))
+
+```
+
+### Parte 3.4.5. Calculamos las metricas de RLG
+
+```{r}
+#| label: Metricas de RLG
+
+rgl_metrics <- metrics(rgl_results, truth = contenido_calorico, estimate = .pred) %>% 
+  mutate(model = "nearest neighbors")
+
+paged_table(rgl_metrics)
+
+```
+
+### Parte 3.4.6. Graficamos el modelo RLG
+
+```{r}
+#| label: Grafica del RLG
+#| fig-cap: Grafico del modelo de Regresion Lineal Generalizada
+#| warning: false
+
+graf_rgl <- rgl_results %>%
+  ggplot(aes(x = .pred, y = contenido_calorico))+
+  geom_point(alpha = 0.1)+
+  geom_abline(color = "darkred")
+ggplotly(graf_rgl)
+
+```
+
+## Parte 3.5. Realziamos una comapracion visual de los modelos
+
+A continuacion se presentan los modelos realziados para tener un mejor visualziacion al moemnto de comprarlos y determianr que modelos e ajusta mejor
+
+```{r}
+#| label: Comparacion de los modelos
+#| fig-cap: Comparacion visual de los diferentes modelos de prediccion
+#| warning: false
+
+comp_models <- bind_rows(lr_results, rf_results, kknn_results, rgl_results) %>% 
+  ggplot(aes(x = .pred, y = contenido_calorico, color =  model)) +
+  geom_point(alpha = 0.1) +
+  geom_abline(color = "darkred") +
+  facet_wrap(~ model) + #significa que voy a realizar facetas para cada modelo.
+  theme(legend.position = "none")
+ggplotly(comp_models)
+
+```
+
+# Parte 4. Predicciones
+Para este caso realizaremos una predicción con el modelo que creemos que mejor se ajuste al modelo, es importante mencionar que cada vez que se ejecuta el código fuente de este documento, los parámetros y resultados pueden cambiar, por lo que se recomienda analizar los datos sin modificar el archivo *.QMD*.
+
+## Datos con los que haremos la prediccion
+```{r}
+#| label: Data to predict
+
+# NOTA: Las calorias de este alimento son 100
+datos_prediccion <- tibble(
+  alimento = "Nutella",
+  carbohidratos = 11,
+  proteinas = 1,
+  lipidos = 6,
+  sodio = 10)
+
+kable(datos_prediccion)
+
+```
+
+Realizaremos 3 predicciones con los datos precargados con los diferentes modelos.
+
+## Prediccion con Regresión Lineal
+```{r}
+#| label: Predict with linear reg
+
+lr_fit %>%
+  predict(new_data = datos_prediccion) %>%
+  mutate(Rubro = "Calorias") %>%
+  kable()
+
+```
+
+## Prediccion con Random Forest
+```{r}
+#| label: Predict with Random Forest
+
+rf_fit %>%
+  predict(new_data = datos_prediccion) %>%
+  mutate(Rubro = "Calorias") %>%
+  kable()
+
+```
+
+## Prediccion con Nearest Neighbours
+```{r}
+#| label: Predict with KKNN
+
+kknn_fit %>%
+  predict(new_data = datos_prediccion) %>%
+  mutate(Rubro = "Calorias") %>%
+  kable()
+
+```
+
+## Prediccion con Regresion Lineal Generalziada
+```{r}
+#| label: Predict with RGL
+
+rgl_fit %>%
+  predict(new_data = datos_prediccion) %>%
+  mutate(Rubro = "Calorias") %>%
+  kable()
+
+```
+
+## Anlizamos la importancia de las variables al momento de predecir.
+```{r}
+# feature importance
+lr_fit %>% 
+  extract_fit_parsnip() %>% 
+  vip::vip(aesthetics =list(alpha = 0.75,
+                            fill = "darkgreen"))
+
+```
+
+Como podemos apreciar, utilizando el modelo de regresión lineal, nos indica que los carbohidratos son los datos que tienen una mayor importancia al momento de realizar predicciones sobre el contenido calórico de algún alimento.
+ 
+# Conclusiones
+Una vez realizado todo el análisis podemos determinar las siguientes conclusiones de los datos recabados.
+ 
+1. De todas las variables de un alimento, los carbohidratos son los que más aportan al incremento del contenido calórico de un alimento.
+ 
+**Demostración:**
+
+  1.1.  Podemos observar desde la regresión lineal simple entre carbohidratos y contenido calórico, teniendo en general las mejores métricas en comparativa con los demás modelos entre las variables.
+ 
+  1.2. En el preprocesamiento nos indicó una alta correlación entre los carbohidratos y el contenido calórico.
+ 
+  1.3. Al momento de realizar la predicción y analizar la importancia que tuvo cada variable para la predicción de las calorías, claramente tenemos un alto porcentaje correspondientes a carbohidratos.
+ 
+  1.4. Al momento de realizar la regresión lineal de los macroalimentos y compararlos visualmente, nos damos cuenta que el modelo con mejor ajuste es el correspondiente a carbohidratos.
+ 
+  1.5. Al ver el top alimentos con más carbohidratos y compararlo con el top de contenido calórico, podemos apreciar que hay varios alimentos que coinciden que un alto contenido en carbohidratos, son altos también en contenido calórico.
+ 
+2. Al realizar los diferentes modelos para predecir y compararlos entre sí, el mejor modelo de predicción es Random Forest.
+ 
+**Demostración**
+ 
+  2.1 El modelo de Random Forest tiene una mayor precisión a comparación de los demás modelos, esto lo podemos apreciar en las métricas del modelo, teniendo las más satisfactorias en el Random Forest.
+ 
+  2.2. Al momento de realizar la comparación visual de los modelos para predicción, nos damos cuenta que *Random Forest* se acomoda bastante bien a todos los datos para realizar predicciones, teniendo poca variación en los datos.
+ 
+  2.3. Al momento de realizar la predicción con un alimento al que ya conocemos sus calorías, nos damos cuenta que el modelo de *Random Forest* logra la mejor predicción al valor que los demás modelos.
+
